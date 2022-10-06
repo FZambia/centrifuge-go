@@ -89,7 +89,7 @@ func newClient(endpoint string, isProtobuf bool, config Config) *Client {
 		config.WriteTimeout = time.Second
 	}
 	if config.HandshakeTimeout == 0 {
-		config.HandshakeTimeout = time.Second
+		config.HandshakeTimeout = 5 * time.Second
 	}
 	if config.MaxServerPingDelay == 0 {
 		config.MaxServerPingDelay = 10 * time.Second
@@ -1120,6 +1120,7 @@ func (c *Client) startReconnecting() error {
 		}
 		c.resubscribe()
 	})
+
 	if err != nil {
 		_ = t.Close()
 		c.reconnectAttempts++
